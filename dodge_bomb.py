@@ -1,6 +1,7 @@
 import os
-import sys
 import random
+import sys
+import time
 import pygame as pg
 
 
@@ -16,6 +17,8 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko, tate
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -28,9 +31,28 @@ def main():
     bb_rct.center = random.randint(0, WIDTH), random.randint(0,HEIGHT)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
+
+    bl_img = pg.Surface((1100, 650))
+    pg.draw.rect(bl_img, (0, 0, 0), (0, 0, 1100,650))
+    bl_img.set_alpha(200)
+    bl_rct = bl_img.get_rect()
+    bl_rct.center = 550, 325
+    moji = pg.font.Font(None,80)
+    kokaton = pg.image.load("fig/8.png")
+    txt = moji.render("Game Over", True, (255, 255, 255))
+
     vx, vy = +5, +5
     clock = pg.time.Clock()
     tmr = 0
+    
+    def gameover(screen: pg.Surface) -> None:
+        screen.blit(bl_img, bl_rct)
+        screen.blit(txt, [400, 300])
+        screen.blit(kokaton, [330, 280])
+        screen.blit(kokaton, [730, 280])
+
+        pg.display.update()
+        time.sleep(5)
     
     while True:
         for event in pg.event.get():
@@ -39,8 +61,10 @@ def main():
         screen.blit(bg_img, [0, 0]) 
 
         if kk_rct.colliderect(bb_rct):
+            gameover(screen)
             print("game over")
             return
+        
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
         DELTA = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)}
