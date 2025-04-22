@@ -37,9 +37,9 @@ def main():
     bl_img.set_alpha(200)
     bl_rct = bl_img.get_rect()
     bl_rct.center = 550, 325
-    moji = pg.font.Font(None,80)
-    kokaton = pg.image.load("fig/8.png")
-    txt = moji.render("Game Over", True, (255, 255, 255))
+    moji = pg.font.Font(None,80)  #文字の大きさ
+    kokaton = pg.image.load("fig/8.png") #こうかとんの泣いている写真
+    txt = moji.render("Game Over", True, (255, 255, 255)) #game overの文字
 
     vx, vy = +5, +5
     clock = pg.time.Clock()
@@ -106,7 +106,7 @@ def main():
         
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
-        DELTA = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)}
+        DELTA = {pg.K_UP:(0,-5), pg.K_DOWN:(0,5), pg.K_LEFT:(-5,0), pg.K_RIGHT:(5,0)} #keyに対応した移動量
         for key, (x,y) in DELTA.items():
             if key_lst[key]:
                 sum_mv[0] += x
@@ -129,7 +129,7 @@ def main():
 
         screen.blit(bb_img, bb_rct)  #爆弾の描画
         pg.display.update()
-        tmr += 1
+        tmr += 1  #経過時間
         clock.tick(50)
 
 
